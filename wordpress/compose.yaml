@@ -1,0 +1,34 @@
+services:
+  wordpress:
+    build:
+      context: .
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+        PHP_VERSION: ${PHP_VERSION:-8.4}
+    env_file:
+      - path: ${HOME}/.config/sitepilot/credentials.env
+        required: false
+      - path: .env
+        required: false
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  mariadb:
+    image: mariadb:${MARIADB_VERSION:-11}
+    environment:
+      MARIADB_DATABASE: "wordpress"
+      MARIADB_USER: "wordpress"
+      MARIADB_PASSWORD: "secret"
+      MARIADB_ROOT_PASSWORD: "supersecret"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  mariadb_data:
