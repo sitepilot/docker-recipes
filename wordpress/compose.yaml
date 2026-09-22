@@ -9,8 +9,6 @@ services:
     env_file:
       - path: ${HOME}/.config/sitepilot/credentials.env
         required: false
-      - path: .env
-        required: false
     depends_on:
       mariadb:
         condition: service_healthy

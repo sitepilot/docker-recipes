@@ -17,7 +17,7 @@ set -eu
 : "${WP_ADMIN_USER:=admin}"
 : "${WP_ADMIN_PASSWORD:=secret}"
 : "${WP_ADMIN_EMAIL:=admin@example.com}"
-: "${WP_THEME:-}"
+: "${WP_THEME:=}"
 : "${WP_PLUGINS:=}"
 : "${WP_ACF_PRO_KEY:=}"
 
